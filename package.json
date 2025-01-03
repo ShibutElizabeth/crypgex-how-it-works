@@ -1,0 +1,28 @@
+{
+  "name": "how-it-works",
+  "source": "src/index.html",
+  "scripts": {
+    "clean-dist": "rm -rf dist && mkdir dist",
+    "copy-static": "cp -r src/static/* dist",
+    "init": "npm run clean-dist && npm run copy-static",
+    "serve": "parcel serve ./src/*.html",
+    "build": "parcel build ./src/*.html"
+  },
+  "authors": "shibutelizabeth",
+  "devDependencies": {
+    "@parcel/transformer-glsl": "^2.8.3",
+    "@parcel/transformer-sass": "^2.8.3",
+    "buffer": "^6.0.3",
+    "parcel": "^2.9.1",
+    "parcel-bundler": "^1.12.5",
+    "parcel-plugin-static-files-copy": "^2.6.0"
+  },
+  "staticFiles": {
+    "staticPath": "src/static",
+    "watcherGlob": "**"
+  },
+  "dependencies": {
+    "gsap": "^3.12.5",
+    "three": "^0.124.0"
+  }
+}
