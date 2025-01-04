@@ -5,7 +5,8 @@ import * as fragmentShader from '../shaders/fragment.glsl';
 
 const RADIUS = 1200;
 const INCLINATION_ANGLE = Math.PI / 4;
-const ROTATION_SPEED = 0.5;
+const ROTATION_SPEED = 1.;
+let baseSpeed = 0.01;
 
 const container = document.querySelector('.how-it-works');
 const { width, height } = container.getBoundingClientRect();
@@ -53,9 +54,6 @@ const material = new THREE.ShaderMaterial( {
 const plane = new THREE.Points(geometry, material);
 scene.add(plane);
 
-window.addEventListener('resize', onWindowResize);
-
-animate();
 
 function onWindowResize() {
   const {width, height} = container.getBoundingClientRect();
@@ -66,6 +64,7 @@ function onWindowResize() {
 const tl1 = gsap.timeline();
 const tl2 = gsap.timeline();
 let changed = false;
+let isStatic = false;
 
 const changeTex = () => {
   changed = !changed;
@@ -96,20 +95,26 @@ const update = () => {
   });
 }
 
-update();
+function updateCameraPosition(time) {
+  let k = material.uniforms.coefficient.value;
+  camera.position.x = RADIUS * Math.sin(time * ROTATION_SPEED) * Math.sin(INCLINATION_ANGLE);
+  camera.position.y = RADIUS * Math.sin(time * ROTATION_SPEED) * Math.sin(INCLINATION_ANGLE) * k;
+  camera.position.z = RADIUS * Math.cos(time * ROTATION_SPEED) * Math.sin(INCLINATION_ANGLE);
+  camera.lookAt(0, 0, 0);
+}
 
 function animate() {
   time += 0.01;
   material.uniforms.time.value = time;
 
-  // camera.position.x = RADIUS * Math.cos(time * 2 * rotationSpeed);
-  // camera.position.y = RADIUS * Math.sin(time * rotationSpeed);
-  // camera.position.z = RADIUS * Math.sin(time * 2 * rotationSpeed);
-  camera.position.x = RADIUS * Math.sin(time * ROTATION_SPEED) * Math.sin(INCLINATION_ANGLE);
-  camera.position.y = RADIUS * Math.sin(time * ROTATION_SPEED) * Math.sin(INCLINATION_ANGLE);
-  camera.position.z = RADIUS * Math.cos(time * ROTATION_SPEED) * Math.sin(INCLINATION_ANGLE);
-  camera.lookAt(0, 0, 0);
+  updateCameraPosition(time);
 
   requestAnimationFrame(animate);
   renderer.render(scene, camera);
 }
+
+
+animate();
+update();
+
+window.addEventListener('resize', onWindowResize);
