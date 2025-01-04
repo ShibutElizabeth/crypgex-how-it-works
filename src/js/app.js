@@ -1,58 +1,31 @@
 import gsap from 'gsap';
 import * as THREE from 'three';
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
-import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js';
-import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
-import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass.js';
 import * as vertexShader from '../shaders/vertex.glsl';
 import * as fragmentShader from '../shaders/fragment.glsl';
 
 const container = document.querySelector('.how-it-works');
-// const { width, height } = container.getBoundingClientRect();
-const width = window.innerWidth;
-const height = window.innerHeight;
+const { width, height } = container.getBoundingClientRect();
 
 const scene = new THREE.Scene();
-const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 2000);
-camera.position.z = 1500;
-// camera.lookAt(0, 0, 0);
+// const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 2000);
+const camera = new THREE.PerspectiveCamera(45, width / height, 1, 2000);
+camera.position.set(0, 0, 1500);
+camera.lookAt(0, 0, 0);
 
 const renderer = new THREE.WebGLRenderer({ 
   antialias: true,
   alpha: true,
   powerPreference: "high-performance"
 });
+
 renderer.setSize(width, height);
 renderer.setClearColor(0xffffff, 0);
 container.appendChild( renderer.domElement );
 
-const controls = new OrbitControls(camera, renderer.domElement);
+// const controls = new OrbitControls(camera, renderer.domElement);
 
-const renderScene = new RenderPass(scene, camera);
-
-const params = {
-  threshold: 0,
-  strength: 0,
-  radius: 0
-};
-
-const bloomPass = new UnrealBloomPass( new THREE.Vector2(width/2, height/2), 1.5, 0.4, 0.85 );
-bloomPass.threshold = params.threshold;
-bloomPass.strength = params.strength;
-bloomPass.radius = params.radius;
-bloomPass.renderToScreen = true;
-
-const composer = new EffectComposer(renderer);
-composer.addPass(renderScene);
-composer.addPass(bloomPass);
-
-composer.renderToScreen = true;
 renderer.autoClear = false;
 
-const mouse = {
-  x: 0.,
-  y: 0.
-};
 
 let time = 0.0;
 const textureLoader = new THREE.TextureLoader();
@@ -70,8 +43,7 @@ const material = new THREE.ShaderMaterial( {
     coefficient: { value: 1.6 },
     tex1: { value: first },
     tex2: { value: second },
-    mixFactor: { value: 0.0 },
-    uMouse: {value: new THREE.Vector2(mouse.x, mouse.y)}
+    mixFactor: { value: 0.0 }
   },
   vertexShader: vertexShader,
   fragmentShader: fragmentShader,
@@ -89,7 +61,6 @@ function onWindowResize() {
   // const {width, height} = document.body.getBoundingClientRect();
   camera.updateProjectionMatrix();
   renderer.setSize(width, height);
-  composer.setSize(width, height);
 }
 
 const tl1 = gsap.timeline();
@@ -132,5 +103,5 @@ function animate() {
   material.uniforms.time.value = time;
 
   requestAnimationFrame(animate);
-  composer.render();
+  renderer.render(scene, camera);
 }
