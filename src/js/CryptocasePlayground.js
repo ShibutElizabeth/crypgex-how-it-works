@@ -87,12 +87,30 @@ export default class CryptocasePlayground {
 
     // triggers the animation start, can be adjusted
     createTrigger(){
-        gsap.timeline().to(this.container, {
+        // gsap.timeline().to(this.container, {
+        //     onStart: () => this.startAnimation(),
+        //     scrollTrigger: {
+        //         trigger: this.container,
+        //         start: 'top bottom',
+        //     }
+        // });
+        const animation = gsap.timeline({
+            paused: true, // Сначала останавливаем анимацию
+        });
+        
+        animation.to(this.container, {
+            duration: 1,
             onStart: () => this.startAnimation(),
-            scrollTrigger: {
-                trigger: this.container,
-                start: 'top bottom',
-            }
+        });
+        
+        ScrollTrigger.create({
+            trigger: this.container,
+            start: 'top bottom',
+            end: 'bottom top',
+            onEnter: () => animation.play(),
+            onLeave: () => animation.pause(),
+            onEnterBack: () => animation.play(),
+            onLeaveBack: () => animation.pause(),
         });
     }
 
