@@ -1,14 +1,20 @@
-import gsap from 'gsap';
 import {
-  TextureLoader,
-  PlaneBufferGeometry,
-  ShaderMaterial,
-  Points,
-  DoubleSide
+    TextureLoader,
+    PlaneBufferGeometry,
+    ShaderMaterial,
+    Points,
+    DoubleSide
 } from 'three';
+import gsap from 'gsap';
+import ScrollTrigger from 'gsap/dist/ScrollTrigger';
+import ScrollToPlugin from 'gsap/dist/ScrollToPlugin';
+
+import { initPlayground } from './utils';
+
 import * as vertexShader from '../shaders/vertex.glsl';
 import * as fragmentShader from '../shaders/fragment.glsl';
-import { initPlayground } from './utils';
+
+gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
 
 export default class CryptocasePlayground {
     constructor() {
@@ -30,7 +36,7 @@ export default class CryptocasePlayground {
         await this.loadTextures();
         this.createMesh();
         this.animate();
-        this.startAnimation();
+        this.createTrigger();
     }
 
     async loadTextures(){
@@ -75,6 +81,17 @@ export default class CryptocasePlayground {
         
         this.mesh = new Points(this.geometry, this.material);
         this.scene.add(this.mesh);
+    }
+
+    // triggers the animation start, can be adjusted
+    createTrigger(){
+        gsap.timeline().to(this.container, {
+            onStart: () => this.startAnimation(),
+            scrollTrigger: {
+                trigger: this.container,
+                start: 'top bottom',
+            }
+        });
     }
 
     changeTexture = () => {

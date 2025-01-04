@@ -11,6 +11,7 @@ import {
 } from 'three';
 import { RectAreaLightUniformsLib } from 'three/examples/jsm/lights/RectAreaLightUniformsLib.js';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
+
 import { rectAreaLightsData, COLORS, initPlayground } from './utils';
 
 RectAreaLightUniformsLib.init();
