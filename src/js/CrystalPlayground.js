@@ -10,8 +10,7 @@ import {
     Vector3,
     Scene,
     PerspectiveCamera,
-    WebGLRenderer,
-    Clock
+    WebGLRenderer
 } from 'three';
 import { RectAreaLightUniformsLib } from 'three/examples/jsm/lights/RectAreaLightUniformsLib.js';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
@@ -25,7 +24,6 @@ export default class CrystalPlayground {
         this.container = document.querySelector('.crystal');
         this.LIGHT_RADIUS = 4;
         this.RADIUS = 68.5;
-        this.clock = new Clock();
 
         this.initPlayground({
             fov: 5,
@@ -157,13 +155,11 @@ export default class CrystalPlayground {
     }
 
     animate() {
-        // const delta = this.clock.getDelta();
         this.time += 0.01;
 
         this.crystalMaterial.needsUpdate = true;
         this.autoRotation();
 
-        // requestAnimationFrame(this.animate.bind(this));
         this.renderer.render(this.scene, this.camera);
     }
 

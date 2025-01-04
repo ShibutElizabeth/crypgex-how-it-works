@@ -6,8 +6,7 @@ import {
     PlaneGeometry,
     ShaderMaterial,
     Points,
-    DoubleSide,
-    Vector2
+    DoubleSide
 } from 'three';
 
 import gsap from 'gsap';
