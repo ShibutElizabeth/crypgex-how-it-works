@@ -23,6 +23,9 @@ export default class CryptocasePlayground {
         
         this.time = 0.0;
         this.changed = false;
+        this.init();
+
+        // console.log(this);
     }
 
     async init() {
@@ -46,7 +49,7 @@ export default class CryptocasePlayground {
         };
 
         try {
-            this.first = await loadTexture('../../crypgex-cryptocase.png');
+            this.first = await loadTexture('../../cryptocase.png');
             this.second = await loadTexture('../../cryptos.png');
         } catch (error) {
             console.error('Error loading textures:', error);
@@ -71,7 +74,7 @@ export default class CryptocasePlayground {
             fragmentShader: fragmentShader,
         });
         
-        this.mesh = new Points(geometry, material);
+        this.mesh = new Points(this.geometry, this.material);
         this.scene.add(this.mesh);
     }
 
@@ -94,14 +97,14 @@ export default class CryptocasePlayground {
       }
       
     startAnimation = () => {
-        gsap.fromTo(material.uniforms.coefficient, {
+        gsap.fromTo(this.material.uniforms.coefficient, {
           value: 0,
         }, {
           value: 1.5,
           delay: 1.5,
           duration: 1,
-          onComplete: () => this.changeTexture(),
-          onStart: () => this.updateCameraPosition(),
+          onComplete: () => this.changeTexture.bind(this),
+          onStart: () => this.changeTexture.bind(this),
         });
     }
 
@@ -122,7 +125,7 @@ export default class CryptocasePlayground {
 
     animate() {
         this.time += 0.01;
-        this.material.uniforms.time.value = time;
+        this.material.uniforms.time.value = this.time;
       
         requestAnimationFrame(this.animate.bind(this));
         this.renderer.render(this.scene, this.camera);

@@ -17,7 +17,7 @@ canvas{
     height: 100%;
 }
 
-.section{
+section{
     width: 100vw;
     height: 100vh;
     position: relative;
@@ -47,6 +47,15 @@ canvas{
     width: 70vw;
     height: 70vh;
     position: absolute;
-    top: 0;
-    left: 0;
+    top: 5vh;
+    left: 5vw;
+
+    @include phone(){
+        width: 100vw;
+        height: 30vh;
+        top: 10vh;
+        left: 0;
+        right: auto;
+        bottom: auto;
+    }
 }

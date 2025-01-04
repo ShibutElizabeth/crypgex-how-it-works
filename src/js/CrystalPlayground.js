@@ -18,13 +18,16 @@ RectAreaLightUniformsLib.init();
 export default class CrystalPlayground {
     constructor() {
         this.container = document.querySelector('.crystal');
-        this.RADIUS = 4;
+        this.LIGHT_RADIUS = 4;
+        this.RADIUS = 68.5;
 
         initPlayground(this, {
             fov: 5,
             near: 1,
             far: 100
         });
+
+        // console.log(this)
         
         this.rectAreaLights = [];
         this.objectGLB = {
@@ -170,13 +173,13 @@ export default class CrystalPlayground {
           
             this.crystal.rotation.y += 0.008 * rotationSpeed;
       
-            this.rectAreaLights[4].position.x = this.RADIUS * Math.cos(this.time * 2 * rotationSpeed);
-            this.rectAreaLights[4].position.z = this.RADIUS * Math.sin(this.time * 2 * rotationSpeed);    
+            this.rectAreaLights[4].position.x = this.LIGHT_RADIUS * Math.cos(this.time * 2 * rotationSpeed);
+            this.rectAreaLights[4].position.z = this.LIGHT_RADIUS * Math.sin(this.time * 2 * rotationSpeed);    
             this.rectAreaLights[4].lookAt(0, 0, 0);
       
-            this.rectAreaLights[5].position.x = -this.RADIUS * Math.cos(this.time * 2 * rotationSpeed);
-            this.rectAreaLights[5].position.z = -this.RADIUS * Math.sin(this.time * 2 * rotationSpeed);
-            this.rectAreaLights[5].position.y = this.RADIUS * Math.sin(this.time * 4 * rotationSpeed);    
+            this.rectAreaLights[5].position.x = -this.LIGHT_RADIUS * Math.cos(this.time * 2 * rotationSpeed);
+            this.rectAreaLights[5].position.z = -this.LIGHT_RADIUS * Math.sin(this.time * 2 * rotationSpeed);
+            this.rectAreaLights[5].position.y = this.LIGHT_RADIUS * Math.sin(this.time * 4 * rotationSpeed);    
             this.rectAreaLights[5].lookAt(0, 0, 0);
       
             const rotationY = this.objectGLB.model.rotation.y % (Math.PI * 2);

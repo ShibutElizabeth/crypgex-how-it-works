@@ -83,6 +83,8 @@ const getSizes = (playground) => {
 }
 
 export const initPlayground = (playground, cameraOptions) => {
+    console.log(playground);
+    console.log(cameraOptions);
     getSizes(playground);
     playground.scene = new Scene();
 
@@ -105,6 +107,7 @@ export const initPlayground = (playground, cameraOptions) => {
     playground.container.appendChild(playground.renderer.domElement);
 
     window.addEventListener('resize', onWindowResize(playground));
+    console.log(playground);
 }
 
 const onWindowResize = (playground) => {
