@@ -13,6 +13,10 @@ import * as vertexShader from '../shaders/vertex.glsl';
 import * as fragmentShader from '../shaders/fragment.glsl';
 
 const RADIUS = 1500;
+export default class CryptocaseScene{
+
+}
+
 
 const container = document.querySelector('.how-it-works');
 const { width, height } = container.getBoundingClientRect();
