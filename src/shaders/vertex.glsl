@@ -1,5 +1,6 @@
 uniform float time;
 uniform float coefficient;
+uniform vec2 uMouse;
 varying vec2 vUv;
 varying vec3 vPosition;
 
@@ -118,6 +119,11 @@ vec3 curlNoise( vec3 p ){
 void main(){
     vUv = uv;
 
+    // vec3 mousePos = vec3(uMouse, 0.0);
+    // float dist = distance(mousePos.xy, position.xy);
+
+    // float effect = 1.0 / (1.0 + dist * 0.1); // Уменьшение эффекта с расстоянием
+    // vec3 mouseEffect = normalize(position - mousePos) * effect * 100.0;
     // vec3 distortion = vec3(position.x * 2., position.y * 2., 600.) * curlNoise(vec3(
     //         position.x * 0.008 + time * 0.2,
     //         position.y * 0.07 + time * 0.2,
@@ -149,8 +155,8 @@ void main(){
     //     )) * coefficient;
 
     vec3 distortion = vec3(position.x, position.y, 200.) * curlNoise(vec3(
-            abs(position.x * 0.01 + time * 0.4),
-            abs(position.y * 0.01 - time * 0.4),
+            abs(position.x * 0.01 + time * 0.4 ),
+            abs(position.y * 0.01 - time * 0.4 ),
             sin(time * 0.02)
         )) * coefficient;
 

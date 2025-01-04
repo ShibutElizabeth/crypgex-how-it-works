@@ -2,6 +2,7 @@ body{
     margin: 0;
     padding: 0;
     background-color: #050011;
+    /* position: relative; */
 }
 
 canvas{
@@ -10,8 +11,7 @@ canvas{
 }
 
 .how-it-works{
-    width: 50vw;
-    height: 50vw;
-    position: absolute;
-    right: 0;
+    width: 100vw;
+    height: 100vw;
+    position: relative;
 }
