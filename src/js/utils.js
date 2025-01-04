@@ -1,7 +1,4 @@
-import { 
-    Color,
-    Vector3
-} from 'three';
+import { Color, Vector3 } from 'three';
 
 // CrystalPlayground.js
 export const COLORS = {
