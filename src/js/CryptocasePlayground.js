@@ -24,14 +24,13 @@ export default class CryptocasePlayground {
         this.time = 0.0;
         this.changed = false;
         this.init();
-
-        // console.log(this);
     }
 
     async init() {
         await this.loadTextures();
         this.createMesh();
         this.animate();
+        this.startAnimation();
     }
 
     async loadTextures(){
@@ -94,7 +93,7 @@ export default class CryptocasePlayground {
             duration: 0.5,
             onComplete: () => this.startAnimation()
         });
-      }
+    }
       
     startAnimation = () => {
         gsap.fromTo(this.material.uniforms.coefficient, {
@@ -103,22 +102,23 @@ export default class CryptocasePlayground {
           value: 1.5,
           delay: 1.5,
           duration: 1,
-          onComplete: () => this.changeTexture.bind(this),
-          onStart: () => this.changeTexture.bind(this),
+          onComplete: () => this.changeTexture(),
+          onStart: () => this.updateCameraPosition(),
         });
     }
 
-    updateCameraPosition() {
+    updateCameraPosition = () => {
         const fullRotationDuration = 2;
-      
+        const that = this;
+
         gsap.to({ angle: 0 }, {
             angle: Math.PI * 2,
             duration: fullRotationDuration,
             onUpdate: function () {
                 const angle = this.targets()[0].angle; 
-                this.camera.position.x = this.RADIUS * Math.sin(angle);
-                this.camera.position.z = this.RADIUS * Math.cos(angle);
-                this.camera.lookAt(0, 0, 0);
+                that.camera.position.x = that.RADIUS * Math.sin(angle);
+                that.camera.position.z = that.RADIUS * Math.cos(angle);
+                that.camera.lookAt(0, 0, 0);
             }
         });
     }

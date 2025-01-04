@@ -27,8 +27,6 @@ export default class CrystalPlayground {
             far: 100
         });
 
-        // console.log(this)
-        
         this.rectAreaLights = [];
         this.objectGLB = {
             model: null,
@@ -167,7 +165,7 @@ export default class CrystalPlayground {
             const epsilon = 0.0;
             const isMobile = /Mobi|Android/i.test(navigator.userAgent);
             const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
-            const rotationSpeed = isMobile ? 1.0 : isSafari ? 2.0 : 0.5;
+            const rotationSpeed = isMobile ? 1.0 : isSafari ? 2.0 : 0.75;
 
             this.objectGLB.model.rotation.y -= 0.005 * rotationSpeed;
           

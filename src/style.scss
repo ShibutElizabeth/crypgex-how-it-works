@@ -52,7 +52,7 @@ section{
 
     @include phone(){
         width: 100vw;
-        height: 30vh;
+        height: 50vh; // important for scaling the animation on mobile
         top: 10vh;
         left: 0;
         right: auto;
