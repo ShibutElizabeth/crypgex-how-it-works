@@ -21,6 +21,7 @@ section{
     width: 100vw;
     height: 100vh;
     position: relative;
+    overflow-x: hidden;
 }
 
 .crystal{
@@ -45,17 +46,16 @@ section{
 
 .how-it-works{
     width: 70vw;
-    height: 70vh;
+    height: 41vw;
     position: absolute;
     top: 5vh;
     left: 5vw;
 
     @include phone(){
-        width: 100vw;
-        height: 100vw; // important for scaling the animation on mobile
-        top: 10vh;
-        left: 0;
-        right: auto;
-        bottom: auto;
+        width: 180vw;
+        height: 105vw; // important for scaling the animation (600x350)
+        top: 5vh;
+        left: 50%;
+        transform: translateX(-50%);
     }
 }

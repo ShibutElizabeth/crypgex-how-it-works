@@ -6,7 +6,8 @@ import {
     PlaneGeometry,
     ShaderMaterial,
     Points,
-    DoubleSide
+    DoubleSide,
+    Vector2
 } from 'three';
 
 import gsap from 'gsap';
@@ -87,18 +88,11 @@ export default class CryptocasePlayground {
 
     // triggers the animation start, can be adjusted
     createTrigger(){
-        // gsap.timeline().to(this.container, {
-        //     onStart: () => this.startAnimation(),
-        //     scrollTrigger: {
-        //         trigger: this.container,
-        //         start: 'top bottom',
-        //     }
-        // });
-        const animation = gsap.timeline({
-            paused: true, // Сначала останавливаем анимацию
+        this.animation = gsap.timeline({
+            paused: true,
         });
         
-        animation.to(this.container, {
+        this.animation.to(this.container, {
             duration: 1,
             onStart: () => this.startAnimation(),
         });
@@ -107,10 +101,10 @@ export default class CryptocasePlayground {
             trigger: this.container,
             start: 'top bottom',
             end: 'bottom top',
-            onEnter: () => animation.play(),
-            onLeave: () => animation.pause(),
-            onEnterBack: () => animation.play(),
-            onLeaveBack: () => animation.pause(),
+            onEnter: () => this.animation.play(),
+            onLeave: () => this.animation.pause(),
+            onEnterBack: () => this.animation.play(),
+            onLeaveBack: () => this.animation.pause(),
         });
     }
 
@@ -197,7 +191,7 @@ export default class CryptocasePlayground {
         this.width = width;
         this.height = height;
     }
- 
+
     onWindowResize(){
         this.getSizes();
         this.camera.updateProjectionMatrix();

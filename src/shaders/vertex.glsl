@@ -25,11 +25,9 @@ float snoise(vec3 v)
     const vec2 C = vec2(1.0 / 6.0, 1.0 / 3.0);
     const vec4 D = vec4(0.0, 0.5, 1.0, 2.0);
 
-    // First corner
     vec3 i = floor(v + dot(v, C.yyy));
     vec3 x0 = v - i + dot(i, C.xxx);
 
-    // Other corners
     vec3 g = step(x0.yzx, x0.xyz);
     vec3 l = 1.0 - g;
     vec3 i1 = min(g.xyz, l.zxy);
@@ -114,49 +112,11 @@ vec3 curlNoise(vec3 p) {
 void main() {
     vUv = uv;
 
-    // vec3 distortion = vec3(position.x * 2., position.y * 2., 600.) * curlNoise(vec3(
-    //     position.x * 0.008 + time * 0.2,
-    //     position.y * 0.07 + time * 0.2,
-    //     time * 0.01)) * coefficient;
-    
-    // vec3 distortion = vec3(position.x * 1.5, position.y * 1.5, 300.) * curlNoise(vec3(
-    //     sin(position.x * 0.01 + time * 0.5),
-    //     cos(position.y * 0.01 + time * 0.5),
-    //     sin(time * 0.02))) * coefficient;
-    
-    // vec3 distortion =vec3(position.x * 2.0, position.y * 1.8, 600.) * curlNoise(vec3(
-    //     position.x * 0.01 + time * 0.3,
-    //     position.y * 0.02 + sin(time * 0.05),
-    //     position.z * 0.01 + cos(time * 0.04))) * coefficient;
-    
-    // vec3 distortion = vec3(position.x * 1.8, position.y * 2.2, 500.) * curlNoise(vec3(
-    //     position.x * 0.015 + sin(time * 0.1),
-    //     position.y * 0.015 - cos(time * 0.1),
-    //     time * 0.02)) * coefficient;
-
-    // vec3 distortion = vec3(position.x * 2.5, position.y * 1.5, 400.) * curlNoise(vec3(
-    //     position.x * 0.01 + sin(time * 0.3),
-    //     position.y * 0.01,
-    //     abs(sin(position.x * 0.01 + time * 0.05)))) * coefficient;
-    
     vec3 distortion = vec3(position.x, position.y, 300.) * curlNoise(vec3(
         abs(position.x * 0.01 + time * 0.4),
         abs(position.y * 0.01 - time * 0.4),
         sin(time * 0.02))) * coefficient;
-    
-    // vec3 distortion = vec3(position.x * 2.5, position.y * 1.5, 300.) * curlNoise(vec3(
-    //     position.x * 0.02 + sin(time * 0.3),
-    //     position.y * 0.01,
-    //     abs(sin(position.x * 0.01 + time * 0.05)))) * coefficient;
-
-    // vec3 distortion = vec3(
-    //     position.x * 2.0, 
-    //     position.y * 2.0,
-    //     300.0) * curlNoise(vec3(
-    //         position.x * 0.008 + time * 0.2,
-    //         position.y * 0.07 + time * 0.2,
-    //         time * 0.01)) * coefficient;
-
+ 
     vec3 finalPosition = position + distortion;
 
     vec4 mvPosition = modelViewMatrix * vec4(finalPosition, 1.0);
