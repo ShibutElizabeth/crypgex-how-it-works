@@ -189,8 +189,7 @@ export default class CrystalPlayground {
             const rotationY = this.objectGLB.model.rotation.y % (Math.PI * 2);
       
             this.objectGLB.model.position.y = 0.15 * (Math.cos(this.time * 2 * rotationSpeed));
-      
-            // Первый объект (виден от 0 до π/2 и от 3π/2 до 2π)
+
             const isVisibleFirst = (Math.abs(rotationY) + epsilon < Math.PI / 2) || (Math.abs(rotationY) - epsilon < Math.PI / 2) 
                 || (Math.abs(rotationY) + epsilon > 3 * Math.PI / 2) || (Math.abs(rotationY) - epsilon > 3 * Math.PI / 2);
       
@@ -228,8 +227,7 @@ export default class CrystalPlayground {
         this.renderer.setClearColor(0xffffff, 0);
         this.renderer.outputColorSpace = SRGBColorSpace;
         this.renderer.shadowMap.enabled = false;
-        // playground.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-            
+
         this.container.appendChild(this.renderer.domElement);
     
         window.addEventListener('resize', this.onWindowResize.bind(this));

@@ -168,7 +168,6 @@ export default class CryptocasePlayground {
         this.renderer.setClearColor(0xffffff, 0);
         this.renderer.outputColorSpace = SRGBColorSpace;
         this.renderer.shadowMap.enabled = false;
-        
              
         this.container.appendChild(this.renderer.domElement);
      
