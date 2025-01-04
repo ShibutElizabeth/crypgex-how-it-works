@@ -1,13 +1,8 @@
 import {
-    Scene,
-    PerspectiveCamera,
-    WebGLRenderer,
-    SRGBColorSpace, 
     AmbientLight,
     RectAreaLight,
     MeshPhysicalMaterial,
     MeshStandardMaterial,
-    Color,
     FrontSide,
     DoubleSide,
     IcosahedronGeometry,
@@ -16,93 +11,21 @@ import {
 } from 'three';
 import { RectAreaLightUniformsLib } from 'three/examples/jsm/lights/RectAreaLightUniformsLib.js';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
-
-const LIGHT_RADIUS = 4;
-
-const COLORS = {
-    white: new Color('#FFFFFF'),
-    pink: new Color('#FF00FF'),
-    blue: new Color('#4535FF'),
-    violet: new Color('#882AEB'),
-    black: new Color('#000000')
-};
-
-const rectAreaLightsData = [
-    {
-        color: COLORS.violet,
-        intensity: 10,
-        size: 10,
-        position: new Vector3(0, 0, -3)
-    },
-    {
-        color: COLORS.blue,
-        intensity: 10,
-        size: 10,
-        position: new Vector3(5, 0, 3)
-    },
-    {
-        color: COLORS.blue,
-        intensity: 10,
-        size: 10,
-        position: new Vector3(0, -6, -7)
-    },
-    {
-        color: COLORS.blue,
-        intensity: 5,
-        size: 10,
-        position: new Vector3(-5, 0, 3)
-    },
-    {
-        color: COLORS.white,
-        intensity: 25,
-        size: 5,
-        position: new Vector3(0, 1, 0)
-    },
-    {
-        color: COLORS.white,
-        intensity: 25,
-        size: 5,
-        position: new Vector3(0, -2, 0)
-    },
-    {
-        color: COLORS.pink,
-        intensity: 10,
-        size: 3,
-        position: new Vector3(0, 0, -2)
-    },
-    {
-        color: COLORS.blue,
-        intensity: 10,
-        size: 10,
-        position: new Vector3(-5, 0, 1)
-    },
-];
+import { rectAreaLightsData, COLORS, initPlayground } from './utils';
 
 RectAreaLightUniformsLib.init();
 
-export default class CrystalScene {
+export default class CrystalPlayground {
     constructor() {
         this.container = document.querySelector('.crystal');
-        this.getSizes();
+        this.RADIUS = 4;
 
-        this.scene = new Scene();
-
-        this.camera = new PerspectiveCamera(5, this.width / this.height, 1, 100);
-        this.camera.position.set(0, 0, 68.5);
+        initPlayground(this, {
+            fov: 5,
+            near: 1,
+            far: 100
+        });
         
-        this.renderer = new WebGLRenderer({ 
-            antialias: true,
-            alpha: true,
-            powerPreference: "high-performance"
-         });
-        this.renderer.setSize(this.width, this.height);
-        this.renderer.setClearColor(0xffffff, 0);
-        this.renderer.outputColorSpace = SRGBColorSpace;
-        this.renderer.shadowMap.enabled = false;
-        this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-        
-        this.container.appendChild(this.renderer.domElement);
-
         this.rectAreaLights = [];
         this.objectGLB = {
             model: null,
@@ -119,8 +42,6 @@ export default class CrystalScene {
         this.setLights();
         this.setMaterials();
         this.init();
-        
-        window.addEventListener('resize', this.onWindowResize.bind(this));
     }
 
     async init() {
@@ -249,13 +170,13 @@ export default class CrystalScene {
           
             this.crystal.rotation.y += 0.008 * rotationSpeed;
       
-            this.rectAreaLights[4].position.x = LIGHT_RADIUS * Math.cos(this.time * 2 * rotationSpeed);
-            this.rectAreaLights[4].position.z = LIGHT_RADIUS * Math.sin(this.time * 2 * rotationSpeed);    
+            this.rectAreaLights[4].position.x = this.RADIUS * Math.cos(this.time * 2 * rotationSpeed);
+            this.rectAreaLights[4].position.z = this.RADIUS * Math.sin(this.time * 2 * rotationSpeed);    
             this.rectAreaLights[4].lookAt(0, 0, 0);
       
-            this.rectAreaLights[5].position.x = -LIGHT_RADIUS * Math.cos(this.time * 2 * rotationSpeed);
-            this.rectAreaLights[5].position.z = -LIGHT_RADIUS * Math.sin(this.time * 2 * rotationSpeed);
-            this.rectAreaLights[5].position.y = LIGHT_RADIUS * Math.sin(this.time * 4 * rotationSpeed);    
+            this.rectAreaLights[5].position.x = -this.RADIUS * Math.cos(this.time * 2 * rotationSpeed);
+            this.rectAreaLights[5].position.z = -this.RADIUS * Math.sin(this.time * 2 * rotationSpeed);
+            this.rectAreaLights[5].position.y = this.RADIUS * Math.sin(this.time * 4 * rotationSpeed);    
             this.rectAreaLights[5].lookAt(0, 0, 0);
       
             const rotationY = this.objectGLB.model.rotation.y % (Math.PI * 2);
@@ -280,17 +201,5 @@ export default class CrystalScene {
         rectLight.lookAt(0, 0, 0);
 
         return rectLight;
-    }
-
-    getSizes(){
-        const { width, height } = this.container.getBoundingClientRect();
-        this.width = width;
-        this.height = height;
-    }
-
-    onWindowResize() {
-        this.getSizes();
-        this.camera.updateProjectionMatrix();
-        this.renderer.setSize(this.width, this.height);
     }
 }
