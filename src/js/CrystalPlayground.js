@@ -10,7 +10,8 @@ import {
     Vector3,
     Scene,
     PerspectiveCamera,
-    WebGLRenderer
+    WebGLRenderer,
+    Clock
 } from 'three';
 import { RectAreaLightUniformsLib } from 'three/examples/jsm/lights/RectAreaLightUniformsLib.js';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
@@ -24,6 +25,7 @@ export default class CrystalPlayground {
         this.container = document.querySelector('.crystal');
         this.LIGHT_RADIUS = 4;
         this.RADIUS = 68.5;
+        this.clock = new Clock();
 
         this.initPlayground({
             fov: 5,
@@ -52,7 +54,7 @@ export default class CrystalPlayground {
     async init() {
         await this.loadModel();
         this.createCrystal();
-        this.animate();
+        this.renderer.setAnimationLoop(this.animate.bind(this));
     }
 
     setLights(){
@@ -155,12 +157,13 @@ export default class CrystalPlayground {
     }
 
     animate() {
+        // const delta = this.clock.getDelta();
         this.time += 0.01;
 
         this.crystalMaterial.needsUpdate = true;
         this.autoRotation();
 
-        requestAnimationFrame(this.animate.bind(this));
+        // requestAnimationFrame(this.animate.bind(this));
         this.renderer.render(this.scene, this.camera);
     }
 
@@ -169,7 +172,7 @@ export default class CrystalPlayground {
             const epsilon = 0.0;
             const isMobile = /Mobi|Android/i.test(navigator.userAgent);
             const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
-            const rotationSpeed = isMobile ? 1.0 : isSafari ? 2.0 : 0.75;
+            const rotationSpeed = isMobile || isSafari ? 3.0 : 1.0;
 
             this.objectGLB.model.rotation.y -= 0.005 * rotationSpeed;
           

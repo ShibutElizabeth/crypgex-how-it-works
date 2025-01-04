@@ -38,7 +38,7 @@ export default class CryptocasePlayground {
     async init() {
         await this.loadTextures();
         this.createMesh();
-        this.animate();
+        this.renderer.setAnimationLoop(this.animate.bind(this));
         this.createTrigger();
     }
 
@@ -158,7 +158,6 @@ export default class CryptocasePlayground {
         this.time += 0.01;
         this.material.uniforms.time.value = this.time;
       
-        requestAnimationFrame(this.animate.bind(this));
         this.renderer.render(this.scene, this.camera);
     }
 
