@@ -7,12 +7,17 @@ import {
     DoubleSide,
     IcosahedronGeometry,
     Mesh,
+    Vector3,
+    Scene,
+    PerspectiveCamera,
+    WebGLRenderer,
+    SRGBColorSpace,
     Vector3
 } from 'three';
 import { RectAreaLightUniformsLib } from 'three/examples/jsm/lights/RectAreaLightUniformsLib.js';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 
-import { rectAreaLightsData, COLORS, initPlayground } from './utils';
+import { rectAreaLightsData, COLORS } from './utils';
 
 RectAreaLightUniformsLib.init();
 
@@ -22,7 +27,7 @@ export default class CrystalPlayground {
         this.LIGHT_RADIUS = 4;
         this.RADIUS = 68.5;
 
-        initPlayground(this, {
+        this.initPlayground({
             fov: 5,
             near: 1,
             far: 100
@@ -203,5 +208,42 @@ export default class CrystalPlayground {
         rectLight.lookAt(0, 0, 0);
 
         return rectLight;
+    }
+    
+    initPlayground(cameraOptions){
+       this.getSizes();
+       this.scene = new Scene();
+    
+        this.camera = new PerspectiveCamera(cameraOptions.fov, this.width / this.height, cameraOptions.near, cameraOptions.far);
+        this.camera.position.set(0, 0, this.RADIUS);
+        this.camera.lookAt(0, 0, 0);
+            
+        this.renderer = new WebGLRenderer({ 
+            antialias: true,
+            alpha: true,
+            powerPreference: "high-performance"
+        });
+    
+        this.renderer.setSize(this.width, this.height);
+        this.renderer.setClearColor(0xffffff, 0);
+        this.renderer.outputColorSpace = SRGBColorSpace;
+        this.renderer.shadowMap.enabled = false;
+        // playground.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+            
+        this.container.appendChild(this.renderer.domElement);
+    
+        window.addEventListener('resize', this.onWindowResize.bind(this));
+    }
+
+    getSizes(){
+        const { width, height } = this.container.getBoundingClientRect();
+        this.width = width;
+        this.height = height;
+    }
+
+    onWindowResize(){
+        this.getSizes();
+        this.camera.updateProjectionMatrix();
+        this.renderer.setSize(this.width, this.height);
     }
 }

@@ -1,4 +1,8 @@
 import {
+    Scene,
+    PerspectiveCamera,
+    WebGLRenderer,
+    SRGBColorSpace, 
     TextureLoader,
     PlaneBufferGeometry,
     ShaderMaterial,
@@ -8,8 +12,6 @@ import {
 import gsap from 'gsap';
 import ScrollTrigger from 'gsap/dist/ScrollTrigger';
 import ScrollToPlugin from 'gsap/dist/ScrollToPlugin';
-
-import { initPlayground } from './utils';
 
 import * as vertexShader from '../shaders/vertex.glsl';
 import * as fragmentShader from '../shaders/fragment.glsl';
@@ -21,7 +23,7 @@ export default class CryptocasePlayground {
         this.container = document.querySelector('.how-it-works');
         this.RADIUS = 1500;
 
-        initPlayground(this, {
+        this.initPlayground({
             fov: 45,
             near: 1,
             far: 2000
@@ -146,5 +148,42 @@ export default class CryptocasePlayground {
       
         requestAnimationFrame(this.animate.bind(this));
         this.renderer.render(this.scene, this.camera);
+    }
+
+    initPlayground(cameraOptions){
+        this.getSizes();
+        this.scene = new Scene();
+     
+        this.camera = new PerspectiveCamera(cameraOptions.fov, this.width / this.height, cameraOptions.near, cameraOptions.far);
+        this.camera.position.set(0, 0, this.RADIUS);
+        this.camera.lookAt(0, 0, 0);
+             
+        this.renderer = new WebGLRenderer({ 
+            antialias: true,
+            alpha: true,
+            powerPreference: "high-performance"
+        });
+     
+        this.renderer.setSize(this.width, this.height);
+        this.renderer.setClearColor(0xffffff, 0);
+        this.renderer.outputColorSpace = SRGBColorSpace;
+        this.renderer.shadowMap.enabled = false;
+        
+             
+        this.container.appendChild(this.renderer.domElement);
+     
+        window.addEventListener('resize', this.onWindowResize.bind(this));
+    }
+ 
+    getSizes(){
+        const { width, height } = this.container.getBoundingClientRect();
+        this.width = width;
+        this.height = height;
+    }
+ 
+    onWindowResize(){
+        this.getSizes();
+        this.camera.updateProjectionMatrix();
+        this.renderer.setSize(this.width, this.height);
     }
 }

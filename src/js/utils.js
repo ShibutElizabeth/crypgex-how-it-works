@@ -1,8 +1,4 @@
-import {
-    Scene,
-    PerspectiveCamera,
-    WebGLRenderer,
-    SRGBColorSpace, 
+import { 
     Color,
     Vector3
 } from 'three';
@@ -66,41 +62,3 @@ export const rectAreaLightsData = [
         position: new Vector3(-5, 0, 1)
     },
 ];
-
-// functions
-const getSizes = (playground) => {
-    const { width, height } = playground.container.getBoundingClientRect();
-    playground.width = width;
-    playground.height = height;
-}
-
-const onWindowResize = (playground) => {
-    getSizes(playground);
-    playground.camera.updateProjectionMatrix();
-    playground.renderer.setSize(playground.width, playground.height);
-}
-
-export const initPlayground = (playground, cameraOptions) => {
-    getSizes(playground);
-    playground.scene = new Scene();
-
-    playground.camera = new PerspectiveCamera(cameraOptions.fov, playground.width / playground.height, cameraOptions.near, cameraOptions.far);
-    playground.camera.position.set(0, 0, playground.RADIUS);
-    playground.camera.lookAt(0, 0, 0);
-        
-    playground.renderer = new WebGLRenderer({ 
-        antialias: true,
-        alpha: true,
-        powerPreference: "high-performance"
-    });
-
-    playground.renderer.setSize(playground.width, playground.height);
-    playground.renderer.setClearColor(0xffffff, 0);
-    playground.renderer.outputColorSpace = SRGBColorSpace;
-    playground.renderer.shadowMap.enabled = false;
-    playground.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-        
-    playground.container.appendChild(playground.renderer.domElement);
-
-    window.addEventListener('resize', onWindowResize(playground));
-}
