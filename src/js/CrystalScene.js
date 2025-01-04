@@ -17,7 +17,7 @@ import {
 import { RectAreaLightUniformsLib } from 'three/examples/jsm/lights/RectAreaLightUniformsLib.js';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 
-const RADIUS = 4;
+const LIGHT_RADIUS = 4;
 
 const COLORS = {
     white: new Color('#FFFFFF'),
@@ -249,13 +249,13 @@ export default class CrystalScene {
           
             this.crystal.rotation.y += 0.008 * rotationSpeed;
       
-            this.rectAreaLights[4].position.x = RADIUS * Math.cos(this.time * 2 * rotationSpeed);
-            this.rectAreaLights[4].position.z = RADIUS * Math.sin(this.time * 2 * rotationSpeed);    
+            this.rectAreaLights[4].position.x = LIGHT_RADIUS * Math.cos(this.time * 2 * rotationSpeed);
+            this.rectAreaLights[4].position.z = LIGHT_RADIUS * Math.sin(this.time * 2 * rotationSpeed);    
             this.rectAreaLights[4].lookAt(0, 0, 0);
       
-            this.rectAreaLights[5].position.x = -RADIUS * Math.cos(this.time * 2 * rotationSpeed);
-            this.rectAreaLights[5].position.z = -RADIUS * Math.sin(this.time * 2 * rotationSpeed);
-            this.rectAreaLights[5].position.y = RADIUS * Math.sin(this.time * 4 * rotationSpeed);    
+            this.rectAreaLights[5].position.x = -LIGHT_RADIUS * Math.cos(this.time * 2 * rotationSpeed);
+            this.rectAreaLights[5].position.z = -LIGHT_RADIUS * Math.sin(this.time * 2 * rotationSpeed);
+            this.rectAreaLights[5].position.y = LIGHT_RADIUS * Math.sin(this.time * 4 * rotationSpeed);    
             this.rectAreaLights[5].lookAt(0, 0, 0);
       
             const rotationY = this.objectGLB.model.rotation.y % (Math.PI * 2);
