@@ -73,7 +73,7 @@ export default class CryptocasePlayground {
             side: DoubleSide,
             uniforms: {
                 time: { value: 0.0 },
-                coefficient: { value: 1.6 },
+                coefficient: { value: 0.0 },
                 tex1: { value: this.first },
                 tex2: { value: this.second },
                 mixFactor: { value: 0.0 }
