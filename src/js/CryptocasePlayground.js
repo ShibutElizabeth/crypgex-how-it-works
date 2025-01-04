@@ -2,18 +2,18 @@ import {
     Scene,
     PerspectiveCamera,
     WebGLRenderer,
-    SRGBColorSpace, 
     TextureLoader,
-    PlaneBufferGeometry,
+    PlaneGeometry,
     ShaderMaterial,
     Points,
     DoubleSide
 } from 'three';
+
 import gsap from 'gsap';
 import ScrollTrigger from 'gsap/dist/ScrollTrigger';
 import ScrollToPlugin from 'gsap/dist/ScrollToPlugin';
 
-import * as vertexShader from '../shaders/vertex.glsl';
+import * as vertexShader from '../shaders/vertex.glsl'
 import * as fragmentShader from '../shaders/fragment.glsl';
 
 gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
@@ -21,7 +21,7 @@ gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
 export default class CryptocasePlayground {
     constructor() {
         this.container = document.querySelector('.how-it-works');
-        this.RADIUS = 1500;
+        this.RADIUS = 1400;
 
         this.initPlayground({
             fov: 45,
@@ -64,7 +64,7 @@ export default class CryptocasePlayground {
     }
 
     createMesh(){
-        this.geometry = new PlaneBufferGeometry(600, 350, 600, 350);
+        this.geometry = new PlaneGeometry(600, 350, 600, 350);
         this.material = new ShaderMaterial({ 
             extensions: {
                 derivatives: "#extension GL_OES_standard_derivatives : enable"
@@ -166,8 +166,8 @@ export default class CryptocasePlayground {
      
         this.renderer.setSize(this.width, this.height);
         this.renderer.setClearColor(0xffffff, 0);
-        this.renderer.outputColorSpace = SRGBColorSpace;
         this.renderer.shadowMap.enabled = false;
+        this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
              
         this.container.appendChild(this.renderer.domElement);
      

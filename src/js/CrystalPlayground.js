@@ -10,9 +10,7 @@ import {
     Vector3,
     Scene,
     PerspectiveCamera,
-    WebGLRenderer,
-    SRGBColorSpace,
-    Vector3
+    WebGLRenderer
 } from 'three';
 import { RectAreaLightUniformsLib } from 'three/examples/jsm/lights/RectAreaLightUniformsLib.js';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
@@ -225,8 +223,8 @@ export default class CrystalPlayground {
     
         this.renderer.setSize(this.width, this.height);
         this.renderer.setClearColor(0xffffff, 0);
-        this.renderer.outputColorSpace = SRGBColorSpace;
         this.renderer.shadowMap.enabled = false;
+        this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
         this.container.appendChild(this.renderer.domElement);
     
@@ -241,6 +239,7 @@ export default class CrystalPlayground {
 
     onWindowResize(){
         this.getSizes();
+
         this.camera.updateProjectionMatrix();
         this.renderer.setSize(this.width, this.height);
     }

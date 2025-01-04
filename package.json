@@ -13,7 +13,7 @@
     "@parcel/transformer-glsl": "^2.8.3",
     "@parcel/transformer-sass": "^2.8.3",
     "buffer": "^6.0.3",
-    "parcel": "^2.9.1",
+    "parcel": "^2.13.3",
     "parcel-bundler": "^1.12.5",
     "parcel-plugin-static-files-copy": "^2.6.0"
   },
@@ -23,6 +23,6 @@
   },
   "dependencies": {
     "gsap": "^3.12.5",
-    "three": "^0.124.0"
+    "three": "^0.172.0"
   }
 }
