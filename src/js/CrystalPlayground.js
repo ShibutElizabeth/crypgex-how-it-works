@@ -166,10 +166,10 @@ export default class CrystalPlayground {
     autoRotation = () => {
         if(this.objectGLB.model !== null){
             const epsilon = 0.0;
-            // const isMobile = /Mobi|Android/i.test(navigator.userAgent);
-            // const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
-            // const rotationSpeed = isMobile || isSafari ? 3.0 : 1.0;
-            const rotationSpeed = 3.0;
+            const isMobile = /Mobi|Android/i.test(navigator.userAgent);
+            const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+            const rotationSpeed = isMobile || isSafari ? 3.0 : 1.0;
+            // const rotationSpeed = 3.0;
 
             this.objectGLB.model.rotation.y -= 0.005 * rotationSpeed;
           

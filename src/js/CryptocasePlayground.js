@@ -10,13 +10,9 @@ import {
 } from 'three';
 
 import gsap from 'gsap';
-import ScrollTrigger from 'gsap/dist/ScrollTrigger';
-import ScrollToPlugin from 'gsap/dist/ScrollToPlugin';
 
 import * as vertexShader from '../shaders/vertex.glsl'
 import * as fragmentShader from '../shaders/fragment.glsl';
-
-gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
 
 export default class CryptocasePlayground {
     constructor() {
@@ -38,7 +34,7 @@ export default class CryptocasePlayground {
         await this.loadTextures();
         this.createMesh();
         this.renderer.setAnimationLoop(this.animate.bind(this));
-        this.createTrigger();
+        this.startAnimation();
     }
 
     async loadTextures(){
@@ -84,29 +80,7 @@ export default class CryptocasePlayground {
         this.mesh = new Points(this.geometry, this.material);
         this.scene.add(this.mesh);
     }
-
-    // triggers the animation start, can be adjusted
-    createTrigger(){
-        this.animation = gsap.timeline({
-            paused: true,
-        });
-        
-        this.animation.to(this.container, {
-            duration: 1,
-            onStart: () => this.startAnimation(),
-        });
-        
-        ScrollTrigger.create({
-            trigger: this.container,
-            start: 'top bottom',
-            end: 'bottom top',
-            onEnter: () => this.animation.play(),
-            onLeave: () => this.animation.pause(),
-            onEnterBack: () => this.animation.play(),
-            onLeaveBack: () => this.animation.pause(),
-        });
-    }
-
+    
     changeTexture = () => {
         this.changed = !this.changed;
         gsap.to(this.material.uniforms.mixFactor, {
